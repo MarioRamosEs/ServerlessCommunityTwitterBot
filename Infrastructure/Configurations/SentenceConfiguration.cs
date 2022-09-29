@@ -8,6 +8,8 @@ public class SentenceConfiguration: IEntityTypeConfiguration<Sentence>
 {
     public void Configure(EntityTypeBuilder<Sentence> builder)
     {
+        builder.ToContainer("Sentences");
+        builder.HasPartitionKey(s => s.Id);
         builder.HasKey(s => s.Id);
         builder.Property(s => s.Id).ValueGeneratedOnAdd();
         builder.Property(s => s.Text).IsRequired();
