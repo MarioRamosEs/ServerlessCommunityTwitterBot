@@ -1,0 +1,7 @@
+### Send POST request with json body
+POST http://localhost:7071/api/CreateSentence
+Content-Type: application/json
+
+{
+  "Text": "De la que te cuento"
+}
