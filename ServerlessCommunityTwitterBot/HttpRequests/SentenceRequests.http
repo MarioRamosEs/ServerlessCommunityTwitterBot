@@ -1,7 +1,15 @@
-### Send POST request with json body
+### Correct sentence
 POST http://localhost:7071/api/CreateSentence
 Content-Type: application/json
 
 {
-  "Text": "De la que te cuento"
+  "Text": "Test 2"
+}
+
+### Incorrect sentence
+POST http://localhost:7071/api/CreateSentence
+Content-Type: application/json
+
+{
+  "Text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie velit ac nisl imperdiet vestibulum. Aliquam dignissim lorem sed lectus iaculis posuere. Maecenas tempus odio id odio aliquet rutrum. Duis mollis fermentum molestie. Cras purus odio, posuere vel elit et, tempor dignissim neque. Vestibulum velit nisl, dignissim vel mauris et, molestie vestibulum magna. Praesent feugiat, tellus eu varius faucibus, elit odio convallis massa, vitae porttitor nulla dui accumsan nisl. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras tincidunt fringilla velit, quis cursus sapien. Integer nunc neque, tincidunt in sapien in, elementum gravida quam. Fusce vehicula urna orci, in hendrerit mauris efficitur ut. Pellentesque quam velit, tempus non aliquet in, convallis non augue. Nunc maximus rhoncus finibus. Aliquam ultricies ligula sit amet sem convallis consectetur. Cras rhoncus convallis pulvinar. Aenean interdum dui nunc, eget facilisis arcu tincidunt vitae. Integer in risus ac lorem condimentum congue. Fusce vitae pretium massa. Praesent sagittis facilisis faucibus. Vivamus porta, nulla condimentum semper lacinia, metus justo imperdiet ante, tristique tempus erat ante non dui. Nam in orci ante. Integer finibus magna sed ex sagittis rutrum. Nunc lacinia varius quam. Integer at tortor ac neque elementum ultrices. Sed sed ipsum eget turpis ullamcorper volutpat ac ac diam. Etiam pretium feugiat justo vitae pulvinar. Ut aliquet purus leo, sit amet bibendum magna sollicitudin vitae. Donec bibendum, orci ut dignissim gravida, quam odio auctor metus, id mattis elit eros in neque. Phasellus aliquam ante in nisl dapibus laoreet. Integer sollicitudin ultricies nisi sollicitudin dictum."
 }
