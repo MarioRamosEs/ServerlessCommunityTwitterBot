@@ -1,0 +1,43 @@
+### Correct sentence
+POST http://localhost:7071/api/CreateSentence
+Content-Type: application/json
+
+{
+  "Text": "Test 2"
+}
+
+### Incorrect sentence
+POST http://localhost:7071/api/CreateSentence
+Content-Type: application/json
+
+{
+  "Text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie velit ac nisl imperdiet vestibulum. Aliquam dignissim lorem sed lectus iaculis posuere. Maecenas tempus odio id odio aliquet rutrum. Duis mollis fermentum molestie. Cras purus odio, posuere vel elit et, tempor dignissim neque. Vestibulum velit nisl, dignissim vel mauris et, molestie vestibulum magna. Praesent feugiat, tellus eu varius faucibus, elit odio convallis massa, vitae porttitor nulla dui accumsan nisl. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras tincidunt fringilla velit, quis cursus sapien. Integer nunc neque, tincidunt in sapien in, elementum gravida quam. Fusce vehicula urna orci, in hendrerit mauris efficitur ut. Pellentesque quam velit, tempus non aliquet in, convallis non augue. Nunc maximus rhoncus finibus. Aliquam ultricies ligula sit amet sem convallis consectetur. Cras rhoncus convallis pulvinar. Aenean interdum dui nunc, eget facilisis arcu tincidunt vitae. Integer in risus ac lorem condimentum congue. Fusce vitae pretium massa. Praesent sagittis facilisis faucibus. Vivamus porta, nulla condimentum semper lacinia, metus justo imperdiet ante, tristique tempus erat ante non dui. Nam in orci ante. Integer finibus magna sed ex sagittis rutrum. Nunc lacinia varius quam. Integer at tortor ac neque elementum ultrices. Sed sed ipsum eget turpis ullamcorper volutpat ac ac diam. Etiam pretium feugiat justo vitae pulvinar. Ut aliquet purus leo, sit amet bibendum magna sollicitudin vitae. Donec bibendum, orci ut dignissim gravida, quam odio auctor metus, id mattis elit eros in neque. Phasellus aliquam ante in nisl dapibus laoreet. Integer sollicitudin ultricies nisi sollicitudin dictum."
+}
+
+### Seed sentences
+POST http://localhost:7071/api/CreateSentences
+Content-Type: application/json
+
+[
+  { "Text": "There is no joy in victory without running the risk of defeat" },
+  { "Text": "Every man dies, but no every man truly lives" },
+  { "Text": "Scrolling through feeds is not free. It comes at the expense of the best version of you" },
+  { "Text": "Anxiety Cost: The longer that you leave not doing a thing, the more of your time is taken up thinking about not having done the thing" },
+  { "Text": "Don’t be on your deathbed someday, having squandered your one chance at life, full of regret because you pursued little distractions instead of big dreams" },
+  { "Text": "Rather than feeling the luxury of time freedom, we’re feeling the burden of constant hurry" },
+  { "Text": "Standing still is the fastest way of moving backwards in a rapidly changing world" },
+  { "Text": "Life is not made to believe things, but to experience them" },
+  { "Text": "The pain of discipline is less than the pain of regret" },
+  { "Text": "Every day we are presented with two options: evolve or repeat" },
+  { "Text": "The mouse dies in the trap because it doesn't understand why the cheese is free." },
+  { "Text": "I am what I do every day. Results are a side effect" },
+  { "Text": "The saddest thing is not to lose, but to be afraid to try" },
+  { "Text": "Luck is the exact point where work and opportunity meet" },
+  { "Text": "Inaction breeds doubt and fear. Action builds trust and value" },
+  { "Text": "The biggest risk is not acting in time" },
+  { "Text": "Those who manage to explain well who they are and what they want end up standing out more" },
+  { "Text": "Build your dreams or get paid to build others" },
+  { "Text": "Slave of your impulses or master of your destiny" },
+  { "Text": "Life ends when you start living on autopilot" },
+  { "Text": "The best day to start was two years ago, the second best day is today" }
+]
