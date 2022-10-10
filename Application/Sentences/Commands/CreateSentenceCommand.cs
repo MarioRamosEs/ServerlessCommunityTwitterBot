@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Domain.Exceptions;
 using Domain.Models;
 using FluentValidation;
 using MediatR;
@@ -38,7 +39,7 @@ public class CreateSentenceCommandHandler : IRequestHandler<CreateSentenceComman
         //if (exists) throw new Exception("Sentence already exists.");
         
         var exists = await _context.Sentences.FirstOrDefaultAsync(s => string.Equals(s.Text, request.Text), cancellationToken);
-        if (exists != null) throw new Exception("Sentence already exists.");
+        if (exists != null) throw new AlreadyExistsException("Sentence", request.Text);
         
         var entity = new Sentence()
         {

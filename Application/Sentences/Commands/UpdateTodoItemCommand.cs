@@ -9,7 +9,8 @@ namespace CleanArchitecture.Application.TodoItems.Commands.UpdateTodoItem;
 public record UpdateSentenceCommand : IRequest
 {
     public Guid Id { get; init; }
-    public string? Text { get; init; }
+    public string? Text { get; set; }
+    public int? TimesUsed { get; set; }
     public DateTime? LastUse { get; set; }
 }
 
@@ -40,6 +41,7 @@ public class UpdateSentenceCommandHandler : IRequestHandler<UpdateSentenceComman
 
         if (!string.IsNullOrWhiteSpace(request.Text)) entity.Text = request.Text;
         if (request.LastUse.HasValue) entity.LastUse = request.LastUse.Value;
+        if (request.TimesUsed.HasValue) entity.TimesUsed = request.TimesUsed.Value;
 
         await _context.SaveChangesAsync(cancellationToken);
         return Unit.Value;
