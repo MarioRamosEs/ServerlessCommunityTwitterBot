@@ -18,6 +18,8 @@ public class GetNextSentenceQueryHandler : IRequestHandler<GetNextSentenceQuery,
 
     public async Task<Sentence> Handle(GetNextSentenceQuery request, CancellationToken cancellationToken)
     {
-        return await (from s in _context.Sentences orderby s.LastUse select s).AsNoTracking().FirstAsync(cancellationToken: cancellationToken);
+        var response = await (from s in _context.Sentences where s.Enabled orderby s.LastUse select s).AsNoTracking().FirstAsync(cancellationToken: cancellationToken);
+        if (response == null) throw new ApplicationException("No sentences found");
+        return response;
     }
 }

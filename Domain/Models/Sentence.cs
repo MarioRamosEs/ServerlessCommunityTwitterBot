@@ -6,4 +6,5 @@ public class Sentence {
     public DateTime LastUse { get; set; }
     public DateTime Created { get; set; }
     public int TimesUsed { get; set; }
+    public bool Enabled { get; set; }
 }

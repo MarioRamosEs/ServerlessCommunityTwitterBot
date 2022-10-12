@@ -22,4 +22,9 @@ public class QueueService: IQueueService
         var response = await _queueClient.SendMessageAsync(messageText: message, timeToLive: new TimeSpan(0,0,-1));
         return response.Value.MessageId;
     }
+    
+    public async Task<string> GetQueueMessage()
+    {
+        throw new NotImplementedException();
+    }
 }

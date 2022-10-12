@@ -20,5 +20,6 @@ public class SendGridService: IEmailSender
         var to = new EmailAddress(email);
         var msg = MailHelper.CreateSingleEmail(from, to, subject, null, message);
         var response = await _client.SendEmailAsync(msg);
+        if (!response.IsSuccessStatusCode) throw new Exception("Error sending email");
     }
 }

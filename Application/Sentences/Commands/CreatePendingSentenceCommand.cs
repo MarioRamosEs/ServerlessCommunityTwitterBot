@@ -1,14 +1,11 @@
-﻿using Application.Interfaces;
-using Domain.Exceptions;
 using Domain.Interfaces.Email;
-using Domain.Interfaces.Queue;
+using Domain.Models;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.Sentences.Commands;
 
-public record CreatePendingSentenceCommand : IRequest<string>
+public record CreatePendingSentenceCommand : IRequest<Sentence>
 {
     public string Text { get; set; } = string.Empty;
 }
@@ -23,28 +20,32 @@ public class CreatePendingSentenceCommandValidator : AbstractValidator<CreateSen
     }
 }
 
-public class CreatePendingSentenceCommandHandler : IRequestHandler<CreatePendingSentenceCommand, string>
+public class CreatePendingSentenceCommandHandler : IRequestHandler<CreatePendingSentenceCommand, Sentence>
 {
-    private readonly IQueueService _queueService;
     private readonly IEmailSender _emailSender;
+    private readonly ISender _mediator;
 
-    public CreatePendingSentenceCommandHandler(IQueueService queueService, IEmailSender emailSender)
+    public CreatePendingSentenceCommandHandler(IEmailSender emailSender, ISender mediator)
     {
-        _queueService = queueService;
         _emailSender = emailSender;
+        _mediator = mediator;
     }
 
-    public async Task<string> Handle(CreatePendingSentenceCommand request, CancellationToken cancellationToken)
+    public async Task<Sentence> Handle(CreatePendingSentenceCommand request, CancellationToken cancellationToken)
     {
         //Insert into queue
-        request.Text = request.Text.Trim();
-        var messageId = await _queueService.InsertQueueMessage(request.Text);
+        var command = new CreateSentenceCommand
+        {
+            Text = request.Text,
+            Enabled = false
+        };
+        var sentence = await _mediator.Send(command, cancellationToken);
         
         //Send email
-        var template = GetEmailTemplate(request.Text, messageId);
+        var template = GetEmailTemplate(request.Text, sentence.Id.ToString());
         await _emailSender.SendEmailAsync("mariodarken@gmail.com", "Twitter Bot - New Sentence", template);
         
-        return messageId;
+        return sentence;
     }
 
     private string GetEmailTemplate(string requestText, string messageId)
@@ -56,13 +57,11 @@ public class CreatePendingSentenceCommandHandler : IRequestHandler<CreatePending
         var functionAppHostKey = Environment.GetEnvironmentVariable("FunctionAppHostKey");
         if (string.IsNullOrWhiteSpace(functionAppHostKey)) throw new ArgumentException("FunctionAppHostKey configuration not found");
         
-        var resolveLink = $"https://communitytwitterbot.azurewebsites.net/api/ResolvePengingSentence?code={functionAppHostKey}==&messageId={messageId}"; 
+        var resolveLink = $"{functionAppUrl}/api/ResolvePendingSentence?code={functionAppHostKey}&messageId={messageId}"; 
         
         emailTemplate = emailTemplate.Replace("[SENTENCE]", requestText);
-        emailTemplate = emailTemplate.Replace("[LINK_ACCEPT_SENTENCE]", resolveLink + "&accept=true");
-        emailTemplate = emailTemplate.Replace("[LINK_REJECT_SENTENCE]", resolveLink + "&accept=false");
+        emailTemplate = emailTemplate.Replace("[LINK_ACCEPT_SENTENCE]", resolveLink + "&action=accept");
+        emailTemplate = emailTemplate.Replace("[LINK_REJECT_SENTENCE]", resolveLink + "&action=reject");
         return emailTemplate;
     }
 }
-
-

@@ -10,6 +10,7 @@ namespace Application.Sentences.Commands;
 public record CreateSentenceCommand : IRequest<Sentence>
 {
     public string Text { get; set; } = string.Empty;
+    public bool Enabled { get; set; } = false;
 }
 
 public class CreateSentenceCommandValidator : AbstractValidator<CreateSentenceCommand>
@@ -35,9 +36,9 @@ public class CreateSentenceCommandHandler : IRequestHandler<CreateSentenceComman
     {
         request.Text = request.Text.Trim();
         
-        //var exists = await _context.Sentences.AnyAsync(s => s.Text.Equals(request.Text), cancellationToken);
+        //var exists = await _context.Sentences.AnyAsync(s => s.Text.Equals(request.Text), cancellationToken); //IDK why this doesn't work
         //if (exists) throw new AlreadyExistsException("Sentence already exists.");
-        
+
         var exists = await _context.Sentences.FirstOrDefaultAsync(s => string.Equals(s.Text, request.Text), cancellationToken);
         if (exists != null) throw new AlreadyExistsException("Sentence", request.Text);
         
@@ -46,7 +47,8 @@ public class CreateSentenceCommandHandler : IRequestHandler<CreateSentenceComman
             Id = Guid.NewGuid(),
             Text = request.Text,
             Created = DateTime.Now,
-            TimesUsed = 0
+            TimesUsed = 0,
+            Enabled = request.Enabled
         };
         _context.Sentences.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);

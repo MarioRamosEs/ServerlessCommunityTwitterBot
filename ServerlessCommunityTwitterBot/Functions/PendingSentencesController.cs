@@ -25,6 +25,15 @@ public class PendingSentencesController
         var data = await JsonSerializer.DeserializeAsync<CreatePendingSentenceCommand>(req.Body);
         if (data is null) return new BadRequestResult();
         var messageId = await _mediator.Send(data);
-        return new OkObjectResult($"Message inserted into queue, id: {messageId}");
+        return new OkObjectResult($"Message inserted, id: {messageId}");
+    }
+    
+    [FunctionName("ResolvePendingSentence")]
+    public async Task<IActionResult> ResolvePendingSentence([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req, ILogger log)
+    {
+        var data = await JsonSerializer.DeserializeAsync<ResolvePendingSentenceCommand>(req.Body);
+        if (data is null) return new BadRequestResult();
+        var messageId = await _mediator.Send(data);
+        return new OkObjectResult($"Message resolved, id {messageId}");
     }
 }

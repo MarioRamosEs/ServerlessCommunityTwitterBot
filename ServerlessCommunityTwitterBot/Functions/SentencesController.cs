@@ -23,8 +23,16 @@ public class SentencesController
         _mediator = mediator;
     }
 
+    /// <summary>
+    /// Disabled in Azure
+    /// </summary>
     [FunctionName("CreateSentence")]
-    public async Task<IActionResult> CreateSentence([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req, ILogger log)
+    public async Task<IActionResult> CreateSentence([HttpTrigger(AuthorizationLevel.Function, "post", Route = null),
+#if RELEASE
+                                                      Disable()
+#endif
+        ]
+        HttpRequest req, ILogger log)
     {
         var data = await JsonSerializer.DeserializeAsync<CreateSentenceCommand>(req.Body);
         if (data is null) return new BadRequestResult();
@@ -32,8 +40,16 @@ public class SentencesController
         return new OkObjectResult(sentence);
     }
 
+    /// <summary>
+    /// Disabled in Azure
+    /// </summary>
     [FunctionName("CreateSentences")]
-    public async Task<IActionResult> CreateSentences([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req, ILogger log)
+    public async Task<IActionResult> CreateSentences([HttpTrigger(AuthorizationLevel.Function, "post", Route = null),
+#if RELEASE
+                                                      Disable()
+#endif
+        ]
+        HttpRequest req, ILogger log)
     {
         var data = await JsonSerializer.DeserializeAsync<List<CreateSentenceCommand>>(req.Body);
         if (data is null || !data.Any()) return new BadRequestResult();
@@ -42,6 +58,7 @@ public class SentencesController
         {
             try
             {
+                sentenceString.Enabled = true;
                 var sentence = await _mediator.Send(sentenceString);
                 response.Add(sentence);
             }

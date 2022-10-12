@@ -12,6 +12,7 @@ public record UpdateSentenceCommand : IRequest
     public string? Text { get; set; }
     public int? TimesUsed { get; set; }
     public DateTime? LastUse { get; set; }
+    public bool? Enabled { get; set; }
 }
 
 public class UpdateSentenceCommandValidator : AbstractValidator<UpdateSentenceCommand>
@@ -42,6 +43,7 @@ public class UpdateSentenceCommandHandler : IRequestHandler<UpdateSentenceComman
         if (!string.IsNullOrWhiteSpace(request.Text)) entity.Text = request.Text;
         if (request.LastUse.HasValue) entity.LastUse = request.LastUse.Value;
         if (request.TimesUsed.HasValue) entity.TimesUsed = request.TimesUsed.Value;
+        if (request.Enabled.HasValue) entity.Enabled = request.Enabled.Value;
 
         await _context.SaveChangesAsync(cancellationToken);
         return Unit.Value;
