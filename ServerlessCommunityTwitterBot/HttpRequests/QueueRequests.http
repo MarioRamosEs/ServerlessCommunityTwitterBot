@@ -1,7 +1,0 @@
-### Add to Queue
-POST http://localhost:7071/api/InsertPendingSentence
-Content-Type: application/json
-
-{
-  "message": "Test"
-}

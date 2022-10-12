@@ -36,7 +36,7 @@ public class CreateSentenceCommandHandler : IRequestHandler<CreateSentenceComman
         request.Text = request.Text.Trim();
         
         //var exists = await _context.Sentences.AnyAsync(s => s.Text.Equals(request.Text), cancellationToken);
-        //if (exists) throw new Exception("Sentence already exists.");
+        //if (exists) throw new AlreadyExistsException("Sentence already exists.");
         
         var exists = await _context.Sentences.FirstOrDefaultAsync(s => string.Equals(s.Text, request.Text), cancellationToken);
         if (exists != null) throw new AlreadyExistsException("Sentence", request.Text);

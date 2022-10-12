@@ -26,13 +26,11 @@ public class CreatePendingSentenceCommandValidator : AbstractValidator<CreateSen
 public class CreatePendingSentenceCommandHandler : IRequestHandler<CreatePendingSentenceCommand, string>
 {
     private readonly IQueueService _queueService;
-    private readonly IAppDbContext _context;
     private readonly IEmailSender _emailSender;
 
-    public CreatePendingSentenceCommandHandler(IQueueService queueService, IAppDbContext context, IEmailSender emailSender)
+    public CreatePendingSentenceCommandHandler(IQueueService queueService, IEmailSender emailSender)
     {
         _queueService = queueService;
-        _context = context;
         _emailSender = emailSender;
     }
 
@@ -40,8 +38,6 @@ public class CreatePendingSentenceCommandHandler : IRequestHandler<CreatePending
     {
         //Insert into queue
         request.Text = request.Text.Trim();
-        var exists = await _context.Sentences.AnyAsync(s => s.Text.Equals(request.Text), cancellationToken);
-        if (exists) throw new AlreadyExistsException("Sentence", request.Text);
         var messageId = await _queueService.InsertQueueMessage(request.Text);
         
         //Send email
