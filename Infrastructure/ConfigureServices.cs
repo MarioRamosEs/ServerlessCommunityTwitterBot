@@ -1,5 +1,7 @@
 ﻿
 using Application.Interfaces;
+using Domain.Interfaces.Email;
+using Domain.Interfaces.Queue;
 using Domain.Interfaces.Twitter;
 using Infrastructure.Persistence;
 using Infrastructure.Services;
@@ -22,6 +24,10 @@ public static class ConfigureServices
         services.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());
         
         services.AddScoped<ITwitterSender, TwitterService>();
+        
+        services.AddScoped<IQueueService, QueueService>();
+        
+        services.AddScoped<IEmailSender, SendGridService>();
         
         return services;
     }

@@ -1,0 +1,7 @@
+### Add to Queue
+POST http://localhost:7071/api/CreatePendingSentence
+Content-Type: application/json
+
+{
+  "Text": "These who cannot change their minds cannot change anything"
+}
