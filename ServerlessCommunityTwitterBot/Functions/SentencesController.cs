@@ -1,18 +1,14 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Sentences.Commands;
-using Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
-using Application.Interfaces;
 using Domain.Exceptions;
 using Domain.Models;
 
@@ -20,12 +16,10 @@ namespace ServerlessCommunityTwitterBot.Functions;
 
 public class SentencesController
 {
-    private readonly IAppDbContext _dbContext;
     private readonly ISender _mediator;
 
-    public SentencesController(IAppDbContext dbContext, ISender mediator)
+    public SentencesController(ISender mediator)
     {
-        _dbContext = dbContext;
         _mediator = mediator;
     }
 
@@ -51,18 +45,12 @@ public class SentencesController
                 var sentence = await _mediator.Send(sentenceString);
                 response.Add(sentence);
             }
-            catch (AlreadyExistsException e)
+            catch (AlreadyExistsException)
             {
                 // ignore
             }
         }
-        return new OkObjectResult(response);
-    }
 
-    [FunctionName("GetSentences")]
-    public async Task<IActionResult> GetSentences([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, ILogger log)
-    {
-        var sentences = await _dbContext.Sentences.AsNoTracking().ToListAsync(); //TODO make it with MediatR
-        return new OkObjectResult(sentences);
+        return new OkObjectResult(response);
     }
 }
