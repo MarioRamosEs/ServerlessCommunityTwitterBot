@@ -12,6 +12,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using Application.Interfaces;
 using Domain.Exceptions;
 using Domain.Models;
 
@@ -19,10 +20,10 @@ namespace ServerlessCommunityTwitterBot.Functions;
 
 public class SentencesController
 {
-    private readonly AppDbContext _dbContext;
+    private readonly IAppDbContext _dbContext;
     private readonly ISender _mediator;
 
-    public SentencesController(AppDbContext dbContext, ISender mediator)
+    public SentencesController(IAppDbContext dbContext, ISender mediator)
     {
         _dbContext = dbContext;
         _mediator = mediator;
