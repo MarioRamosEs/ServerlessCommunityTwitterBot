@@ -1,0 +1,7 @@
+### Add to Queue
+POST http://localhost:7071/api/InsertIntoQueue
+Content-Type: application/json
+
+{
+  "message": "Test"
+}
