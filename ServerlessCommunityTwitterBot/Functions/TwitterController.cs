@@ -21,7 +21,7 @@ public class TwitterController
     }
 
     [FunctionName("PublishTweet")]
-    public async Task PublishTweet([TimerTrigger("0 */12 * * *", RunOnStartup = true)] TimerInfo myTimer, ILogger log)
+    public async Task PublishTweet([TimerTrigger("0 0 */12 * * *", RunOnStartup = true)] TimerInfo myTimer, ILogger log)
     {
         log.LogInformation($"C# Timer trigger function executed at: {DateTime.UtcNow}");
         var response = await _mediator.Send(new GetNextSentenceQuery());
