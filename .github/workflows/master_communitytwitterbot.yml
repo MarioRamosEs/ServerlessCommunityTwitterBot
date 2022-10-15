@@ -39,4 +39,4 @@ jobs:
           app-name: 'CommunityTwitterBot'
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_557AFFBDCC4D4E228D2ABBB24269CA5D }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B9D2166531194E4CBF5E24DD0D778A32 }}
