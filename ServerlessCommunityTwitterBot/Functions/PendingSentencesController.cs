@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -24,16 +25,19 @@ public class PendingSentencesController
     {
         var data = await JsonSerializer.DeserializeAsync<CreatePendingSentenceCommand>(req.Body);
         if (data is null) return new BadRequestResult();
-        var messageId = await _mediator.Send(data);
-        return new OkObjectResult($"Message inserted, id: {messageId}");
+        var message = await _mediator.Send(data);
+        return new OkObjectResult($"Message inserted, id: {message.Id}");
     }
     
     [FunctionName("ResolvePendingSentence")]
-    public async Task<IActionResult> ResolvePendingSentence([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req, ILogger log)
+    public async Task<IActionResult> ResolvePendingSentence([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, ILogger log)
     {
-        var data = await JsonSerializer.DeserializeAsync<ResolvePendingSentenceCommand>(req.Body);
-        if (data is null) return new BadRequestResult();
+        var data = new ResolvePendingSentenceCommand()
+        {
+            Id = new Guid(req.Query["id"]),
+            Action = req.Query["action"]
+        };
         var messageId = await _mediator.Send(data);
-        return new OkObjectResult($"Message resolved, id {messageId}");
+        return new OkObjectResult($"Message resolved, id {data.Id}, action: {data.Action}");
     }
 }

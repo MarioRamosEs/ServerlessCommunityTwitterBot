@@ -23,7 +23,7 @@ public class TwitterController
     [FunctionName("PublishTweet")]
     public async Task PublishTweet([TimerTrigger("0 0 */12 * * *", 
 #if DEBUG
-        RunOnStartup = true
+        RunOnStartup = false
 #endif
         )] TimerInfo myTimer, ILogger log)
     {

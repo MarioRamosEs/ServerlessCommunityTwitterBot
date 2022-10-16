@@ -4,16 +4,18 @@ using MediatR;
 
 namespace Application.Sentences.Commands;
 
-public enum ResolvePendingSentenceCommandAction
+
+public static class ResolvePendingSentenceCommandAction
 {
-    Accept,
-    Reject,
+    public const string 
+        Accept = "accept",
+        Reject = "reject";
 }
 
 public record ResolvePendingSentenceCommand : IRequest
 {
     public Guid Id { get; set; }
-    public ResolvePendingSentenceCommandAction Action { get; set; }
+    public string Action { get; set; }
 }
 
 public class ResolvePendingSentenceCommandValidator : AbstractValidator<ResolvePendingSentenceCommand>
