@@ -57,7 +57,7 @@ public class CreatePendingSentenceCommandHandler : IRequestHandler<CreatePending
         var functionAppHostKey = Environment.GetEnvironmentVariable("FunctionAppHostKey");
         if (string.IsNullOrWhiteSpace(functionAppHostKey)) throw new ArgumentException("FunctionAppHostKey configuration not found");
         
-        var resolveLink = $"{functionAppUrl}/api/ResolvePendingSentence?code={functionAppHostKey}&messageId={messageId}"; 
+        var resolveLink = $"{functionAppUrl}/api/ResolvePendingSentence?code={functionAppHostKey}&id={messageId}"; 
         
         emailTemplate = emailTemplate.Replace("[SENTENCE]", requestText);
         emailTemplate = emailTemplate.Replace("[LINK_ACCEPT_SENTENCE]", resolveLink + "&action=accept");

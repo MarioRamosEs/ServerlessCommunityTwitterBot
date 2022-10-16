@@ -32,12 +32,13 @@ public class PendingSentencesController
     [FunctionName("ResolvePendingSentence")]
     public async Task<IActionResult> ResolvePendingSentence([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, ILogger log)
     {
+        string action = req.Query["action"];
         var data = new ResolvePendingSentenceCommand()
         {
             Id = new Guid(req.Query["id"]),
-            Action = req.Query["action"]
+            Action = action.ToLower()
         };
-        var messageId = await _mediator.Send(data);
+        var response = await _mediator.Send(data);
         return new OkObjectResult($"Message resolved, id {data.Id}, action: {data.Action}");
     }
 }
